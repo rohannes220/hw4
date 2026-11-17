@@ -18,3 +18,6 @@ Query results and performance measurements are saved in the `output/` folder. SQ
 
 The written explanations and recommendations are included in this repository.
 
+## Use of AI Assistants
+
+I used ChatGPT to help break down assignment problems into simpler steps and explain concepts I was unfamiliar with, such as SQL indexes, query plans, and calculating percentages. I also used it to understand my query results, organize my work into clear sections, and improve the wording of my explanations.
