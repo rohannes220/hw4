@@ -1,35 +1,20 @@
-# Short Assignment 7A: Windows and Plans
+# DS5110 — Homework 4
 
-Starter repository for HW4 (DS 5110, Week 7, Lecture 7A).
-The handout, `HW4.pdf`, (SEE CANVAS FOR ASSINGMENT) has the tasks and the grading.
+## Overview
 
-## Run it
+This assignment focuses on SQL window functions, user sessions, query performance, and database indexing using the MovieLens dataset.
 
-1. Download the course reference `movielens.db` from Canvas and copy it into
-   `data/` (it is git-ignored), or set `MOVIELENS_DB` to its path. It has the
-   schema used in the Week 7 slides and notebook. `run.py` checks the schema
-   first and tells you if a table or column is missing.
-2. Write each query in `sql/`, replacing `-- YOUR QUERY HERE`.
-3. Run one task at a time, or all of them:
+## Tasks Completed
 
-```bash
-python run.py t1
-python run.py all
-```
+- **T1:** Used window functions to compare ratings and calculate averages.
+- **T2:** Used ranking functions to compare results across groups.
+- **T3:** Identified user sessions using `LAG()` and calculated running averages using different window frames.
+- **T4:** Created two indexes, compared query performance before and after indexing, and rewrote a monthly query to improve performance.
+- **T5:** Recommended indexes based on query performance and storage costs.
 
-`run.py` needs only Python 3.10+ and pandas. It opens the database read-only;
-Task 4 works on a copy in `output/`. Results go to `output/`, and
-`WRITEUP.md` (CREATE THE WRITEUP.MD FILE) quotes them.
+## Results
 
-## Layout
+Query results and performance measurements are saved in the `output/` folder. SQL queries are located in the `sql/` folder.
 
-| Path | What it is | Yours to edit? |
-| --- | --- | --- |
-| `run.py` | runs the SQL, checks shapes, writes `output/` | no |
-| `sql/*.sql` | one file per query | yes |
-
-
-## Use of AI assistants
-
-I used ChatGPT to help break down assignment problems into simpler steps and explain concepts I was unfamiliar with, such as SQL indexes, query plans, and calculating percentages
+The written explanations and recommendations are included in this repository.
 
