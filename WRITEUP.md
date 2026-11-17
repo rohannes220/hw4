@@ -29,3 +29,23 @@ For a "top picks for your profession" page, I would choose ROW_NUMBER() because 
 When would DENSE_RANK() be better?
 
 I would use DENSE_RANK() to show movies with the top three different average ratings, including ties. Unlike ROW_NUMBER(), it gives tied movies the same rank, and unlike RANK(), it does not skip ranking numbers. This makes it useful when we want to include all ties without skipping any rating levels.
+
+## Task 3 — Predictions
+
+**T3a — Sessions:**
+
+I predict that the query will group each user's ratings into sessions based on the time between ratings. If the gap is greater than 30 minutes, a new session will begin. 
+
+**T3b — Running Average:**
+
+ROWS and the default RANGE frame will produce different averages for some ratings that share the same timestamp. ROWS calculates the average one rating at a time, while RANGE includes all ratings with the same timestamp together. 
+
+## Task 3 — Results and Explanation
+
+**T3a — Sessions:**
+
+The query identified 2,793 sessions across 943 users, with a median of 11 ratings per session. Removing ROWS should not change the results because ratings with identical timestamps belong to the same session. 
+
+**T3b — Running Average:**
+
+ROWS and RANGE produced different averages for 49,787 rows, all of which shared timestamps with other ratings. ROWS processes ratings individually, while RANGE includes ratings with the same timestamp together. Unlike T3a's session flags, individual ratings can change the average.
