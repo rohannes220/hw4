@@ -67,3 +67,55 @@ The original query checks every rating to see which month it belongs to.
 The rewritten query searches between two timestamps, such as February 1 and March 1. This allows SQLite to use the timestamp index instead of scanning every rating.
 
 The rewrite did not change my index choices because the timestamp index helps both C_recent and the rewritten D_month.
+
+## T4 — Results and Explanations
+
+### Actual Results
+
+| Query | Before (ms) | After (ms) |
+|---|---:|---:|
+| A_profile | 0.059 | 0.059 |
+| B_movie_page | 2.873 | 0.008 |
+| C_recent | 2.787 | 0.019 |
+| D_month | 18.887 | 17.475 |
+| D_rewrite | 3.618 | 0.213 |
+
+### Explanation
+
+**A_profile:** Already uses an index on `(user_id, movie_id)` to find a user's ratings. SQLite uses a temporary B-tree to sort the ratings by timestamp. Its execution time stayed at 0.059 ms.
+
+**B_movie_page:** Changed from SCAN to SEARCH using the `(movie_id, rating)` index. Its execution time improved from 2.873 ms to 0.008 ms.
+
+**C_recent:** Changed from SCAN to SEARCH using the timestamp index. Its execution time improved from 2.787 ms to 0.019 ms.
+
+**D_month:** Remains a SCAN because `strftime()` converts timestamps into months. SQLite cannot directly search by month using the timestamp index. Its execution time changed from 18.887 ms to 17.475 ms.
+
+### D_month Rewrite
+
+The original query checks every rating to see which month it belongs to. The rewritten query searches between two timestamps, such as February 1 and March 1. This allows SQLite to use the timestamp index instead of scanning every rating.
+
+The rewritten query improved from 3.618 ms to 0.213 ms.
+
+The rewrite did not change my index choices because the timestamp index helps both C_recent and the rewritten D_month.
+
+### Index Storage
+
+Before adding the indexes, the database size was 3,629,056 bytes. After adding the indexes, it increased to 6,168,576 bytes.
+
+The two indexes used an additional **2,539,520 bytes** of storage.
+
+This shows that indexes can improve query performance but also increase database storage requirements.
+
+---
+
+## T5 — Index Recommendation
+
+I recommend adding two indexes: `(movie_id, rating)` and `(timestamp)`.
+
+The first index helps the database find ratings for a particular movie and calculate its average. Our results show that B_movie_page improved from 2.873 milliseconds to 0.008 milliseconds.
+
+The second index helps the database find ratings within a certain time period. C_recent improved from 2.787 milliseconds to 0.019 milliseconds. It also helps the rewritten monthly query, which improved from 3.618 milliseconds to 0.213 milliseconds.
+
+One risk of adding indexes is increased database storage. Our two indexes added 2,539,520 bytes. Indexes also require maintenance when new ratings are inserted or existing ratings are updated, which can slow down those operations.
+
+Overall, these two indexes improve multiple queries without adding unnecessary indexes.

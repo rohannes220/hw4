@@ -31,6 +31,5 @@ Task 4 works on a copy in `output/`. Results go to `output/`, and
 
 ## Use of AI assistants
 
-Record here what you used an assistant for, and for what:
+I used ChatGPT to help break down assignment problems into simpler steps and explain concepts I was unfamiliar with, such as SQL indexes, query plans, and calculating percentages
 
-- (your entries)
