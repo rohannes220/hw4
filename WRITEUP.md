@@ -49,3 +49,21 @@ The query identified 2,793 sessions across 943 users, with a median of 11 rating
 **T3b — Running Average:**
 
 ROWS and RANGE produced different averages for 49,787 rows, all of which shared timestamps with other ratings. ROWS processes ratings individually, while RANGE includes ratings with the same timestamp together. Unlike T3a's session flags, individual ratings can change the average.
+
+### T4 — Explanation
+
+**A_profile:** Already uses an index on `(user_id, movie_id)` to find a user's ratings. However, SQLite needs a temporary B-tree to sort the ratings by timestamp.
+
+**B_movie_page:** Initially scans the table. Our new index on `(movie_id, rating)` helps SQLite find a movie's ratings and calculate the average.
+
+**C_recent:** Initially scans the table. Our timestamp index allows SQLite to search for ratings after a certain date.
+
+**D_month:** Remains a SCAN because `strftime()` converts every timestamp into a month. The timestamp index cannot directly search using this conversion.
+
+### D_month Rewrite
+
+The original query checks every rating to see which month it belongs to.
+
+The rewritten query searches between two timestamps, such as February 1 and March 1. This allows SQLite to use the timestamp index instead of scanning every rating.
+
+The rewrite did not change my index choices because the timestamp index helps both C_recent and the rewritten D_month.
