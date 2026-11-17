@@ -6,3 +6,5 @@ output/*
 !output/.gitkeep
 __pycache__/
 .venv/
+data/
+output/
