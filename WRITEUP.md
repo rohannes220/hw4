@@ -118,4 +118,3 @@ The second index helps the database find ratings within a certain time period. C
 
 One risk of adding indexes is increased database storage. Our two indexes added 2,539,520 bytes. Indexes also require maintenance when new ratings are inserted or existing ratings are updated, which can slow down those operations.
 
-Overall, these two indexes improve multiple queries without adding unnecessary indexes.
